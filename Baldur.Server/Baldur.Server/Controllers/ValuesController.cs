@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Baldur.Server.Database;
 using Baldur.Server.Entities;
+using Baldur.Server.Helpers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Baldur.Server.Controllers
@@ -25,6 +26,8 @@ namespace Baldur.Server.Controllers
                     LastName = "Doe"
                 };
 
+                var hash = Authenticator.HashPassword("bobrae");
+                
                 db.Users.Add(newUser);
                 db.SaveChanges();
                 var userCount = db.Users.Count();
