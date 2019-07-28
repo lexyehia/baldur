@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Baldur.Server.Config;
+using Baldur.Server.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Baldur.Server.Controllers
@@ -13,14 +14,23 @@ namespace Baldur.Server.Controllers
     {
         // GET api/values
         [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        public ActionResult<string> Get()
         {
-            using (var db = new DataContext("public")) 
+            var newUser = new User
             {
-                
+                Email = "bob@bob.com",
+                FirstName = "Bob",
+                LastName = "Doe"
+            };
+
+            using (var db = new DataContext()) 
+            {
+                db.Users.Add(newUser);
+                db.SaveChanges();
+                var userCount = db.Users.Count();
+                return "There are these many users: " + userCount.ToString();
             }
 
-            return new string[] { "value1", "value2" };
         }
 
         // GET api/values/5
