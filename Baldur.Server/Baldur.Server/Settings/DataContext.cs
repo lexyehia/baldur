@@ -1,11 +1,12 @@
 ﻿using Baldur.Server.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Baldur.Server.Config
+namespace Baldur.Server.Database
 {
     public class DataContext : DbContext
     {
@@ -20,6 +21,8 @@ namespace Baldur.Server.Config
             this.schema = schema;
         }
 
+        public DataContext(DbContextOptions<DataContext> options): base(options) { }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
 
@@ -30,5 +33,10 @@ namespace Baldur.Server.Config
         {
             builder.HasDefaultSchema(schema);
         }
+    }
+
+    public class DataContextFactory : IDesignTimeDbContextFactory<DataContext>
+    {
+        public DataContext CreateDbContext(string[] args) => new DataContext();
     }
 }

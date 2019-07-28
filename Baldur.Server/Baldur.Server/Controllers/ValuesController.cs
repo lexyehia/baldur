@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Baldur.Server.Config;
+using Baldur.Server.Database;
 using Baldur.Server.Entities;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,21 +16,20 @@ namespace Baldur.Server.Controllers
         [HttpGet]
         public ActionResult<string> Get()
         {
-            var newUser = new User
+            using (var db = new DataContext())
             {
-                Email = "bob@bob.com",
-                FirstName = "Bob",
-                LastName = "Doe"
-            };
+                var newUser = new User
+                {
+                    Email = "bob@bob.com",
+                    FirstName = "Bob",
+                    LastName = "Doe"
+                };
 
-            using (var db = new DataContext()) 
-            {
                 db.Users.Add(newUser);
                 db.SaveChanges();
                 var userCount = db.Users.Count();
                 return "There are these many users: " + userCount.ToString();
             }
-
         }
 
         // GET api/values/5
