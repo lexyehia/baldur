@@ -1,12 +1,19 @@
 from flask import Flask, escape, request
 from controllers.index_controller import ctrl as index_ctrl
+from helpers.authenticator import create_token, verify_token
 
 app = Flask(__name__)
 
 @app.route("/")
 def hello():
-    name = request.args.get("name", "World")
-    return f"Hello there {escape(name)}"
+    token = create_token("bob@bob.com")
+    return token
+
+
+@app.route("/verify/<token>")
+def verify(token):
+    return verify_token(token)
+
 
 @app.route("/home", methods=["POST"])
 def home():
