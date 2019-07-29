@@ -27,6 +27,10 @@ namespace Baldur.Server.Controllers
                 };
 
                 var hash = Authenticator.HashPassword("bobrae");
+
+                newUser.EncodedPassword = hash;
+
+                var legit = Authenticator.VerifyPassword(hash, "bobrae");
                 
                 db.Users.Add(newUser);
                 db.SaveChanges();
