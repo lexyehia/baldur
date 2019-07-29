@@ -6,6 +6,7 @@ using Baldur.Server.Database;
 using Baldur.Server.Entities;
 using Baldur.Server.Helpers;
 using Microsoft.AspNetCore.Mvc;
+using static Baldur.Server.Helpers.Authenticator;
 
 namespace Baldur.Server.Controllers
 {
@@ -15,6 +16,7 @@ namespace Baldur.Server.Controllers
     {
         // GET api/values
         [HttpGet]
+        [Authenticated]
         public ActionResult<string> Get()
         {
             using (var db = new DataContext())
@@ -26,17 +28,23 @@ namespace Baldur.Server.Controllers
                     LastName = "Doe"
                 };
 
-                var hash = Authenticator.HashPassword("bobrae");
+                var hash = HashPassword("bobrae");
 
                 newUser.EncodedPassword = hash;
 
-                var legit = Authenticator.VerifyPassword(hash, "bobrae");
+                var legit = VerifyPassword(hash, "bobrae");
                 
                 db.Users.Add(newUser);
                 db.SaveChanges();
                 var userCount = db.Users.Count();
                 return "There are these many users: " + userCount.ToString();
             }
+        }
+
+        [HttpPost("token")]
+        public ActionResult<string> GetToken()
+        {
+            return GenerateToken("bob@bob.com");
         }
 
         // GET api/values/5

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Baldur.Server.Helpers
 {
-    public class Authenticator
+    public partial class Authenticator
     {
         private const int iterations = 8;
         private const int threads = 8;
@@ -19,7 +19,7 @@ namespace Baldur.Server.Helpers
         {
             "donde",
             "chacha",
-            "quack"
+            "quack",
         };
 
         public static string HashPassword(string password)
@@ -37,20 +37,21 @@ namespace Baldur.Server.Helpers
 
         public static bool VerifyPassword(string encodedPassword, string enteredPassword)
         {
-            var pwdDict = DecodePassword(encodedPassword);
-            if (pwdDict == null) return false;
+            var (salt, hash) = DecodePassword(encodedPassword);
+            if (salt == null || hash == null) return false;
 
             try {
-                var hashBytes = Convert.FromBase64String(pwdDict["hash"]);
+                var saltBytes = Convert.FromBase64String(salt);
+                var hashBytes = Convert.FromBase64String(hash);
 
                 foreach (var pepper in peppers) 
                 {
                     var argon2 = new Argon2id(Encoding.UTF8.GetBytes(enteredPassword + pepper))
                     {
-                        Iterations = int.Parse(pwdDict["iterations"]),
-                        MemorySize = int.Parse(pwdDict["memory"]),
-                        DegreeOfParallelism = int.Parse(pwdDict["threads"]),
-                        Salt = Convert.FromBase64String(pwdDict["salt"])
+                        Iterations = iterations,
+                        MemorySize = memory,
+                        DegreeOfParallelism = threads,
+                        Salt = saltBytes
                     };
 
                     if (hashBytes.SequenceEqual(argon2.GetBytes(hashLength))) {
@@ -65,41 +66,20 @@ namespace Baldur.Server.Helpers
             return false;
         }
 
-        public static bool IsOldEncoding(string encodedPassword)
-        {
-            var pwdDict = DecodePassword(encodedPassword);
-            if (pwdDict == null) return false;
-
-            return int.Parse(pwdDict["threads"]) != threads ||
-                int.Parse(pwdDict["iterations"]) != iterations ||
-                int.Parse(pwdDict["memory"]) != memory;
-        }
-
         private static string EncodePassword(byte[] hash, byte[] salt)
         {
             var saltString = Convert.ToBase64String(salt);
             var hashString = Convert.ToBase64String(hash);
 
-            return $"{threads}${iterations}${memory}${saltString}${hashString}";
+            return saltString + hashString;
         }
 
-        private static Dictionary<string, string> DecodePassword(string encodedPassword)
+        private static Tuple<string, string> DecodePassword(string encodedPassword)
         {
-            var dictionary = new Dictionary<string, string>();
+            var saltString = encodedPassword.Substring(0, saltLength);
+            var hashString = encodedPassword.Substring(saltLength + 1, hashLength);
 
-            try {
-                var splitStrings = encodedPassword.Split("$");
-                dictionary["threads"] = splitStrings[0];
-                dictionary["iterations"] = splitStrings[1];
-                dictionary["memory"] = splitStrings[2];
-                dictionary["salt"] = splitStrings[3];
-                dictionary["hash"] = splitStrings[4];
-            } catch (Exception e) {
-                Console.WriteLine(e.StackTrace);
-                return null;
-            }
-
-            return dictionary;
+            return new Tuple<string, string>(saltString, hashString);
         }
 
         private static byte[] CreateSalt(int saltLength)
