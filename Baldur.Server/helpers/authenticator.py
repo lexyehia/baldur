@@ -1,5 +1,6 @@
 import jwt
 import random
+from pathlib import Path
 from argon2 import PasswordHasher
 from argon2.exceptions import VerifyMismatchError
 from datetime import datetime, timedelta
@@ -14,22 +15,24 @@ def hash_password(password):
 
 def verify_password(hash, password):
     ph = PasswordHasher()
-    try:
-        peppers = get_peppers_list()
-        for pepper in peppers:
-            return ph.verify(hash, password + pepper)
-    except VerifyMismatchError as e:
-        print(e)
+    peppers = get_peppers_list()
+    for pepper in peppers:
+        try:
+            ph.verify(hash, password + pepper)
+            return True
+        except VerifyMismatchError as e:
+            print(e)
 
     return False
 
 
 def get_peppers_list():
-    f = open("../references/peppers.txt", "r")
+    path = Path(__file__) / "../../references/peppers.txt"
+    file = open(path, "r")
     peppers = []
-    for line in f:
+    for line in file:
         peppers.append(line)
-    f.close()
+    file.close()
     return peppers
 
 
