@@ -1,4 +1,4 @@
-{
+query getUser {
   user(q: "1") {
     email,
   }

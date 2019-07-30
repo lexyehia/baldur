@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Apollo } from "apollo-angular";
-import gql from "graphql-tag";
+import { getUserEmail } from "../graphql"
 
 @Component({
   selector: 'app-root',
@@ -13,11 +13,8 @@ export class AppComponent implements OnInit {
 
     constructor(private apollo: Apollo) {}
 
-    ngOnInit() {
-        this.apollo.query({
-            query: gql`{ user(q: "1") { email } }`
-        }).subscribe(result => {
-            this.bob = result.data && result.data["user"]["email"]
-        });
+    async ngOnInit() {
+        const { data } = await this.apollo.query({ query: getUserEmail(1) }).toPromise();
+        this.bob = data["user"]["email"];
     }
 }
