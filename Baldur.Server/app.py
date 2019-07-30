@@ -1,6 +1,10 @@
+from os import getenv
 from flask import Flask, escape, request
 from controllers.index_controller import ctrl as index_ctrl
 from helpers.authenticator import create_token, verify_token
+from flask_graphql import GraphQLView
+from schemas import schema
+from waitress import serve
 
 app = Flask(__name__)
 
@@ -20,6 +24,13 @@ def home():
     name = request.args.get("name")
     return "Got it"
 
+app.add_url_rule("/graphql", view_func=GraphQLView.as_view("graphql", schema=schema, graphiql=True))
+
+
 app.register_blueprint(index_ctrl)
 
-
+if __name__ == "__main__":
+    if getenv("ENV") == "Production":
+        serve(app, port=5000)
+    else:
+        app.run()
