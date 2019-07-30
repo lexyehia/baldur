@@ -8,6 +8,14 @@ from waitress import serve
 
 app = Flask(__name__)
 
+@app.after_request
+def after_request(response):
+    header = response.headers
+    header['Access-Control-Allow-Origin'] = 'http://localhost:4200'
+    header['Access-Control-Allow-Headers'] = 'origin content-type'
+    return response
+
+
 @app.route("/")
 def hello():
     token = create_token("bob@bob.com")
