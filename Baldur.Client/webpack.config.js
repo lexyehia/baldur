@@ -1,17 +1,28 @@
-const path = require("path");
+const HtmlWebPackPlugin = require("html-webpack-plugin")
 
 module.exports = {
-    resolve: {
-        extensions: ['.ts', '.tsx', '.js', '.graphql'],
-    },
     module: {
         rules: [
             {
-                test: /\.(graphql)|(gql)$/,
-                use: "graphql-tag/loader",
-                exclude: path.resolve(__dirname, "node_modules")
+                test: /\.(js|jsx)$/,
+                exclude: /node_modules/,
+                use: "babel-loader"
+            },
+            {
+                test: /\.(graphql|gql)$/,
+                exclude: /node_modules/,
+                use: "graphql-tag/loader"
+            },
+            {
+                test: /\.html$/,
+                use: "html-loader"
             }
-        ]
-    }
-};
-
+        ],
+    },
+    plugins: [
+        new HtmlWebPackPlugin({
+            template: "./src/index.html",
+            filename: "./index.html"
+        })
+    ]
+}

@@ -4,6 +4,7 @@ from pathlib import Path
 from argon2 import PasswordHasher
 from argon2.exceptions import VerifyMismatchError
 from datetime import datetime, timedelta
+from flask import g
 
 SECRET = "34trg345354hy463y43hge"
 
@@ -48,9 +49,26 @@ def create_token(user_id):
 
 
 def verify_token(token):
+    if type(token) is not str:
+        return None
+
+    if "Bearer " in token:
+        token = token.replace("Bearer ", "")
+
     try:
         decoded_token = jwt.decode(token, SECRET, issuer="Baldur", algorithms="HS256")
         return decoded_token["user"]
     except Exception as e:
         print(e)
         return None
+
+
+def restricted(function):
+    def wrapper(*args, **kwargs):
+        if g.user is None:
+            return None
+        else:
+            return function(*args, **kwargs)
+
+    return wrapper
+
