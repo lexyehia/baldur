@@ -1,0 +1,9 @@
+* Design wireframe for the product
+** Use XD to design wireframe for Register and Login pages
+** Use XD to desing wireframe for main portal
+
+* TASKS
+** Save jwt token in local storage
+** Use postgres to store jwt session details, send random guid
+** Ensure frontend sends jwt token on each request
+

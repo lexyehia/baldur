@@ -1,4 +1,4 @@
-query getUser {
+query GET_USER {
     user(q: "1") {
         email
     }

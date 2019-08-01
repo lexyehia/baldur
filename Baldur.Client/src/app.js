@@ -1,38 +1,23 @@
-import React from "react";
-import { getUser } from "./queries/test.gql";
-import { print } from "graphql/language/printer";
+import React, { useState } from "react"
+import PropTypes from "prop-types"
+import { useQuery } from "@apollo/react-hooks"
+import { GET_USER } from "./queries/test.gql"
 
-export default class HelloComponent extends React.Component {
-    constructor(props) {
-        super(props);
+export const App = () => {
+    const [item, setItem] = useState(null)
+    const { loading, data } = useQuery(GET_USER)
 
-        this.state = {
-            item: null,
-        };
+    if (!loading && item === null) {
+        setItem(data)
     }
 
-    componentDidMount() {
-        runQuery(getUser);
+    if (item) {
+        return <div>{item.user.email}</div>
+    } else {
+        return <div>Loading...</div>
     }
-
-    render() {
-        return <div>Hello there {this.state.item}</div>;
-    }
-
 }
 
-export function runQuery(query, variables = {}) {
-    if (typeof query === "object") {
-        query = print(query)
-    }
-
-    fetch("http://localhost:5000/graphql", {
-        method: "POST",
-        headers: {
-            "content-type": "application/json",
-            "Accept": "application/json",
-        },
-        body: JSON.stringify({ query, variables })
-    });
+App.propTypes = {
+    anyProp: PropTypes.bool.isRequired,
 }
-

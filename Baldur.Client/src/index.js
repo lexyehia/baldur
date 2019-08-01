@@ -1,7 +1,19 @@
 import React from "react"
 import { render } from "react-dom"
-import App from "./app"
+import ApolloClient from "apollo-boost"
+import { ApolloProvider } from "@apollo/react-hooks"
+import { App } from "./app"
 
-const root = document.getElementById("root")
-render(<App/>, root)
+
+const client = new ApolloClient({
+    uri: "http://localhost:5000/graphql",
+})
+
+const Root = () => (
+    <ApolloProvider client={client}>
+      <App/>
+    </ApolloProvider>
+)
+
+render(<Root/>, document.getElementById("root"))
 
