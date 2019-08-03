@@ -5,11 +5,11 @@ from argon2 import PasswordHasher
 from argon2.exceptions import VerifyMismatchError
 from datetime import datetime, timedelta
 from models.user import User
-from models.session import Session as UserSession
-from settings.database import Session as DbSession
-from flask import g
+from models.session import Session
+from flask import abort, g
 
 SECRET = "34trg345354hy463y43hge"
+
 
 def hash_password(password):
     ph = PasswordHasher()
@@ -44,23 +44,28 @@ def start_session(user):
     if user is None:
         return None
 
-    user.session = UserSession()
-    g.session.commit()
+    user.session = Session()
+    g.db.commit()
     return user.session.id
 
 
 def create_token(session_id):
     payload = {
         "ssn": session_id,
-        "exp" : datetime.utcnow() + timedelta(minutes=20),
-        "nbf" : datetime.utcnow(),
-        "iss" : "Baldur"
+        "exp": datetime.utcnow() + timedelta(minutes=20),
+        "nbf": datetime.utcnow(),
+        "iss": "Baldur"
     }
 
-    return jwt.encode(payload, SECRET, algorithm="HS256")
+    token_bytes = jwt.encode(payload, SECRET, algorithm="HS256")
+    return str(token_bytes, "utf-8")
 
 
 def verify_token(token):
+    """
+    Takes a token string and verifies its authenticity, then returns
+    the embedded session guid string
+    """
     if type(token) is not str:
         return None
 
@@ -68,19 +73,11 @@ def verify_token(token):
         token = token.replace("Bearer ", "")
 
     try:
-        decoded_token = jwt.decode(token, SECRET, issuer="Baldur", algorithms="HS256")
+        decoded_token = jwt.decode(token,
+                                   SECRET,
+                                   issuer="Baldur",
+                                   algorithms="HS256")
         return decoded_token["ssn"]
     except Exception as e:
         print(e)
         return None
-
-
-def restricted(function):
-    def wrapper(*args, **kwargs):
-        if g.user is None:
-            return None
-        else:
-            return function(*args, **kwargs)
-
-    return wrapper
-

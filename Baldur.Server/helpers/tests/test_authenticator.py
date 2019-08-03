@@ -27,7 +27,7 @@ def test_verify_password_wrong():
 
 def test_create_token():
     token = auth.create_token("bob@bob.com")
-    assert type(token) is bytes
+    assert type(token) is str
     assert len(token) > 20
 
 
@@ -40,5 +40,5 @@ def test_verify_token_correct():
 
 def test_verify_token_wrong():
     token = auth.create_token("bob@bob.com")
-    token += b"34343tregr"
+    token += "34343tregr"
     assert auth.verify_token(token) is None

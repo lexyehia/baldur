@@ -13,7 +13,7 @@ def start_session():
     if json is None:
         return abort(403)
 
-    user = g.session.query(User).filter_by(email=json["email"]).first()
+    user = g.db.query(User).filter_by(email=json["email"]).first()
 
     if user is None:
         return abort(403)
@@ -29,7 +29,7 @@ def start_session():
 def end_session():
     if g.user and g.user.session:
         g.user.remove(session)
-        g.session.commit()
+        g.db.commit()
 
     return ("", 200)
 

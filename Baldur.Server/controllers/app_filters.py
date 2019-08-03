@@ -29,12 +29,12 @@ def authenticate_token():
 
 @bp.after_app_request
 def after_request(response):
-    if g.session is not None:
-        g.session.close()
+    if g.db is not None:
+        g.db.close()
 
     header = response.headers
-    header['Access-Control-Allow-Origin'] = 'http://localhost:8080'
-    header['Access-Control-Allow-Headers'] = 'origin content-type'
+    header["Access-Control-Allow-Origin"] = "http://localhost:8080"
+    header["Access-Control-Allow-Headers"] = "origin content-type"
 
     return response
 
