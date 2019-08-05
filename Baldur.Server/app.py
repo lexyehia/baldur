@@ -2,7 +2,7 @@ from flask import Flask
 from flask_graphql import GraphQLView
 from waitress import serve
 
-from data.schema import schema
+from schema import schema
 
 from controllers.app_filters import bp as filters
 from controllers.index_controller import ctrl as index_ctrl

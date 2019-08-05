@@ -1,5 +1,5 @@
 from flask import Blueprint, request, abort, g
-from data.user.model import User
+from models.user import User
 import helpers.authenticator as auth
 
 ctrl = Blueprint("sessions", __name__, url_prefix="/sessions")

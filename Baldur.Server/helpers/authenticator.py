@@ -4,7 +4,7 @@ from pathlib import Path
 from argon2 import PasswordHasher
 from argon2.exceptions import VerifyMismatchError
 from datetime import datetime, timedelta
-from data.session.model import Session
+from models.session import Session
 from flask import g
 
 SECRET = "34trg345354hy463y43hge"

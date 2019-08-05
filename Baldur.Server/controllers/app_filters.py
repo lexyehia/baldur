@@ -2,7 +2,7 @@ from flask import Blueprint, request, g
 from settings.database import Session
 from helpers.authenticator import verify_token
 
-from data.user.model import User
+from models.user import User
 
 
 bp = Blueprint("filters", __name__)

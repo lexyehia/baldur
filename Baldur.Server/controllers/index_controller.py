@@ -1,5 +1,5 @@
 from flask import Blueprint, g
-from data.user.model import User
+from models.user import User
 
 ctrl = Blueprint("api", __name__, url_prefix="/api")
 
