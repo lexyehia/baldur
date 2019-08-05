@@ -1,6 +1,5 @@
 from flask import Blueprint, request, abort, g
-from models.user import User
-from models.session import Session 
+from data.user.model import User
 import helpers.authenticator as auth
 
 ctrl = Blueprint("sessions", __name__, url_prefix="/sessions")
@@ -28,8 +27,8 @@ def start_session():
 @ctrl.route("", methods=["DELETE"])
 def end_session():
     if g.user and g.user.session:
-        g.user.remove(session)
+        g.user.session = None
         g.db.commit()
 
-    return ("", 200)
+    return "", 200
 

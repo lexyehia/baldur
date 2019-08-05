@@ -1,7 +1,8 @@
 from flask import Blueprint, g
-from models.user import User
+from data.user.model import User
 
 ctrl = Blueprint("api", __name__, url_prefix="/api")
+
 
 @ctrl.route("/bob/<page>")
 def show(page):
@@ -9,5 +10,3 @@ def show(page):
     g.db.add(user)
     g.db.commit()
     return f"User ID# {user.id}"
-
-

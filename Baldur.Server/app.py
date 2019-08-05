@@ -1,7 +1,8 @@
 from flask import Flask
 from flask_graphql import GraphQLView
-from schemas import schema
 from waitress import serve
+
+from data.schema import schema
 
 from controllers.app_filters import bp as filters
 from controllers.index_controller import ctrl as index_ctrl
@@ -13,10 +14,7 @@ app.register_blueprint(filters)
 app.register_blueprint(index_ctrl)
 app.register_blueprint(sessions_ctrl)
 
-app.add_url_rule("/graphql",
-                 view_func=GraphQLView.as_view("graphql",
-                                               schema=schema,
-                                               graphiql=True))
+app.add_url_rule("/graphql", view_func=GraphQLView.as_view("graphql", schema=schema, graphiql=True))
 
 if __name__ == "__main__":
     if app.env == "Production":

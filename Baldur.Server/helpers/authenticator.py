@@ -4,9 +4,8 @@ from pathlib import Path
 from argon2 import PasswordHasher
 from argon2.exceptions import VerifyMismatchError
 from datetime import datetime, timedelta
-from models.user import User
-from models.session import Session
-from flask import abort, g
+from data.session.model import Session
+from flask import g
 
 SECRET = "34trg345354hy463y43hge"
 
@@ -31,7 +30,7 @@ def verify_password(hash, password):
 
 
 def get_peppers_list():
-    path = Path(__file__) / "../../references/peppers.txt"
+    path = Path(__file__) / "../../peppers.txt"
     file = open(path, "r")
     peppers = []
     for line in file:

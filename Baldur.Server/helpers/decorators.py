@@ -1,5 +1,5 @@
 from flask import abort, g
-from models.user import User
+from data.user.model import User
 
 
 def restricted(f):

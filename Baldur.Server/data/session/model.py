@@ -13,5 +13,3 @@ class Session(Base):
 
     # Relationships
     user = relationship("User", back_populates="session")
-
-
