@@ -10,7 +10,7 @@ class Query(ObjectType):
     users = List(User)
     user = Field(User, q=String())
 
-    def resolve_users(info):
+    def resolve_users(parent, info):
         query = User.get_query(info)
         return query.all()
 
