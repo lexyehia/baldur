@@ -18,8 +18,13 @@ class CreateUser(Mutation):
         user = UserModel(email=email, first_name=first_name, last_name=last_name)
         g.db.add(user)
         g.db.commit()
-        user_type = map_instance(UserType, user)
-        return user_type
+
+        return UserType(
+            id=user.id,
+            email=user.email,
+            first_name=user.first_name,
+            last_name=user.last_name,
+        )
 
 
 class DeleteUser(Mutation):

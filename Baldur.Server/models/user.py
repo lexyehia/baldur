@@ -11,6 +11,7 @@ class User(Base):
     first_name = Column(String)
     last_name = Column(String)
     email = Column(String)
+    hashed_password = Column(String)
 
     # Relationships
     session = relationship("Session", back_populates="user", uselist=False)
