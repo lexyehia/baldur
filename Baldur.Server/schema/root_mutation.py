@@ -1,7 +1,6 @@
 from graphene import ObjectType
-from .user.mutations import *
+from .user.mutations import UserMutation
 
 
-class RootMutation(ObjectType):
-    create_user = CreateUser.Field()
-    delete_user = DeleteUser.Field()
+class RootMutation(UserMutation, ObjectType):
+    pass

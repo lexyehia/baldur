@@ -1,8 +1,7 @@
 from flask import g
-from graphene import Mutation, String, Boolean, Int
+from graphene import *
 from .queries import User as UserType
 from models.user import User as UserModel
-from helpers.misc import map_instance
 
 
 class CreateUser(Mutation):
@@ -41,3 +40,6 @@ class DeleteUser(Mutation):
         return True
 
 
+class UserMutation(ObjectType):
+    create_user = CreateUser.Field()
+    delete_user = DeleteUser.Field()
