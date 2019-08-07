@@ -1,7 +1,8 @@
 import React, { useState } from "react"
 import PropTypes from "prop-types"
 import { useQuery } from "@apollo/react-hooks"
-import { GET_USER } from "./queries/test.gql"
+import { GET_USER } from "./queries/test.graphql"
+import gql from "graphql-tag";
 
 export const App = () => {
     const [item, setItem] = useState(null)
@@ -16,8 +17,16 @@ export const App = () => {
     } else {
         return <div>Loading...</div>
     }
-}
+};
+
+const fragment = gql`
+    mutation ($password: String) {
+        createUser(email: $password) {
+            id
+        }
+    }
+`;
 
 App.propTypes = {
     anyProp: PropTypes.bool.isRequired,
-}
+};

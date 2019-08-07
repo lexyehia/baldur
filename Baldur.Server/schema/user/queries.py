@@ -5,12 +5,18 @@ from helpers.decorators import restricted
 
 
 class User(SQLAlchemyObjectType):
+    """
+    UserType returned as a DTO back through GraphQL
+    """
     class Meta:
         model = user.User
         exclude_fields = ("hashed_password",)
 
 
 class UserQuery(ObjectType):
+    """
+    GraphQL queries re users, this class is inherited by the RootQuery class
+    """
     users = List(User)
     user = Field(User, q=String())
 

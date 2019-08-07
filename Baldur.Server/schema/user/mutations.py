@@ -2,6 +2,7 @@ from flask import g
 from graphene import *
 from .queries import User as UserType
 from models.user import User as UserModel
+from helpers.authenticator import hash_password
 
 
 class CreateUser(Mutation):
@@ -9,12 +10,19 @@ class CreateUser(Mutation):
         email = String()
         first_name = String()
         last_name = String()
+        password = String()
 
     Output = UserType
 
     @staticmethod
-    def mutate(root, info, last_name, email, first_name):
-        user = UserModel(email=email, first_name=first_name, last_name=last_name)
+    def mutate(root, info, last_name, email, first_name, password):
+        user = UserModel(
+            email=email,
+            first_name=first_name,
+            last_name=last_name,
+            hashed_password=hash_password(password),
+        )
+
         g.db.add(user)
         g.db.commit()
 

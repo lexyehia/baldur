@@ -1,0 +1,24 @@
+# This file was generated based on ".graphqlconfig". Do not edit manually.
+
+schema {
+    query: RootQuery
+    mutation: RootMutation
+}
+
+type RootMutation {
+    createUser(email: String, firstName: String, lastName: String, password: String): User
+    deleteUser(pk: Int): Boolean
+}
+
+type RootQuery {
+    user(q: String): User
+    users: [User]
+}
+
+"UserType returned as a DTO back through GraphQL"
+type User {
+    email: String
+    firstName: String
+    id: ID!
+    lastName: String
+}

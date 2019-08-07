@@ -1,3 +1,4 @@
+from models import *
 from settings.database import Base
 from flask import g
 
@@ -10,3 +11,7 @@ def map_instance(target_cls, source_instance):
     attrs.pop("_sa_instance_state", None)
 
     return target_cls(**attrs)
+
+
+def get_hydrated_base():
+    return Base
