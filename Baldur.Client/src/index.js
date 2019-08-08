@@ -2,7 +2,7 @@ import React from "react"
 import { render } from "react-dom"
 import ApolloClient from "apollo-boost"
 import { ApolloProvider } from "@apollo/react-hooks"
-import { App } from "./app"
+import { Base } from "./base"
 
 
 const client = new ApolloClient({
@@ -11,7 +11,7 @@ const client = new ApolloClient({
 
 const Root = () => (
     <ApolloProvider client={client}>
-      <App/>
+      <Base anyProp/>
     </ApolloProvider>
 )
 
