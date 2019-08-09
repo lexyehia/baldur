@@ -16,12 +16,13 @@ def hash_password(password):
     return ph.hash(password + pepper)
 
 
-def verify_password(hash, password):
+def verify_password(hashed_password, password):
     ph = PasswordHasher()
     peppers = get_peppers_list()
+
     for pepper in peppers:
         try:
-            ph.verify(hash, password + pepper)
+            ph.verify(hashed_password, password + pepper)
             return True
         except VerifyMismatchError as e:
             print(e)
@@ -77,6 +78,7 @@ def verify_token(token):
                                    issuer="Baldur",
                                    algorithms="HS256")
         return decoded_token["ssn"]
+
     except Exception as e:
         print(e)
         return None

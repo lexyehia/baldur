@@ -1,18 +1,12 @@
 import React from "react"
-import { render } from "react-dom"
-import ApolloClient from "apollo-boost"
-import { ApolloProvider } from "@apollo/react-hooks"
-import { Base } from "./base"
+import {render} from "react-dom"
+import {ApolloProvider} from "@apollo/react-hooks"
+import {client} from "./shared/apollo";
+import {Base} from "./components/Base"
 
-
-const client = new ApolloClient({
-    uri: "http://localhost:5000/graphql",
-})
-
-const Root = () => (
+render(
     <ApolloProvider client={client}>
-      <Base anyProp/>
-    </ApolloProvider>
+        <Base/>
+    </ApolloProvider>,
+    document.getElementById("app")
 )
-
-render(<Root/>, document.getElementById("root"))

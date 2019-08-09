@@ -1,12 +1,18 @@
 const HtmlWebPackPlugin = require("html-webpack-plugin")
 
 module.exports = {
+    entry: './src/index.js',
     module: {
         rules: [
             {
                 test: /\.(js|jsx)$/,
                 exclude: /node_modules/,
                 use: "babel-loader"
+            },
+            {
+                test: /\.tsx?$/,
+                use: 'ts-loader',
+                exclude: /node_modules/
             },
             {
                 test: /\.(graphql|gql)$/,
@@ -18,6 +24,9 @@ module.exports = {
                 use: "html-loader"
             }
         ],
+    },
+    resolve: {
+        extensions: [ '.tsx', '.ts', '.js', '.jsx' ]
     },
     plugins: [
         new HtmlWebPackPlugin({
