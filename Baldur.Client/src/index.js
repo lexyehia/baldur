@@ -1,4 +1,5 @@
 import React from "react"
+import "./main.scss"
 import {render} from "react-dom"
 import {ApolloProvider} from "@apollo/react-hooks"
 import {client} from "./shared/apollo";
