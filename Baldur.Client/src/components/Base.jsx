@@ -4,20 +4,23 @@ import {useRouter} from "../shared/router";
 import {RegisterView} from "../views/Register/RegisterView";
 import {LoginView} from "../views/Login/LoginView";
 import {Menu} from "./Menu";
+import {NotFound} from "./NotFound";
 
 
 const routes = {
-    '/register/:person?': (props) => <RegisterView {...props} />,
-    '/login/(.*)': () => <LoginView/>
+    "/register": (props) => <RegisterView {...props} />,
+    "/login": () => <LoginView/>
 }
 
 export const Base = () => {
-    const component = useRouter(routes)
+    const route = useRouter(routes)
 
     return (
         <Container>
             <Menu/>
-            <div className="Menu">hello</div>
+            <div id="content">
+                {route || <NotFound/>}
+            </div>
         </Container>
     )
 }
@@ -25,6 +28,10 @@ export const Base = () => {
 const Container = styled.div`
   width: 100%;
   height: 100%;
+  
+  div#content {
+    padding-top: 75px;
+  }
 `
 
 Base.propTypes = {

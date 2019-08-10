@@ -3,7 +3,7 @@ import PropTypes from "prop-types"
 
 export const Link = ({ to, children }) => {
     const onClick = useCallback(() => {
-        window.location = to
+        window.location.push(to)
     }, [to])
 
     return (

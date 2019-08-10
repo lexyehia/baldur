@@ -1,5 +1,5 @@
-import React from "react";
 import pathToRegexp from "path-to-regexp"
+
 
 export function useRouter(routes) {
     if (typeof routes !== "object") {
@@ -11,15 +11,16 @@ export function useRouter(routes) {
 
     for (const routePath in routes) {
         if (!{}.hasOwnProperty.call(routes, routePath)) continue
+        if (typeof routePath !== "string" || typeof routes[routePath] !== "function") continue
 
         const keys = []
-        const pathRegex = pathToRegexp(routePath, keys)
+        const routeRegex = pathToRegexp(routePath, keys)
 
-        if (pathRegex.test(path)) {
+        if (routeRegex.test(path)) {
             const props = {}
 
             if (keys.length > 0) {
-                const values = pathRegex.exec(path).slice(1)
+                const values = routeRegex.exec(path).slice(1)
                 keys.forEach((key, i) => {
                     props[key.name] = values[i]
                 })

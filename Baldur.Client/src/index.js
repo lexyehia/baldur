@@ -1,9 +1,15 @@
-import React from "react"
 import "./main.scss"
+
+import React from "react"
 import {render} from "react-dom"
 import {ApolloProvider} from "@apollo/react-hooks"
-import {client} from "./shared/apollo";
+import ApolloClient from "apollo-boost"
 import {Base} from "./components/Base"
+
+
+const client = new ApolloClient({
+    uri: 'http://localhost:5000/graphql'
+})
 
 render(
     <ApolloProvider client={client}>

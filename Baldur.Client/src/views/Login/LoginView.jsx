@@ -1,10 +1,19 @@
 import React from "react"
-import {useRouter} from "../../shared/router";
+import styled from "styled-components"
+import {Sidebar} from "../../components/Sidebar";
+import {Wrapper} from "../../components/Wrapper";
 
 export const LoginView = (props) => {
     return (
         <div>
-            Login
+            <Sidebar/>
+            <ContentBox>
+                Login
+            </ContentBox>
         </div>
     )
 }
+
+const ContentBox = styled(Wrapper)`
+  padding-left: 160px;
+`
