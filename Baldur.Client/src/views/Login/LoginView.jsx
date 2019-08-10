@@ -1,9 +1,10 @@
 import React from "react"
+import {useRouter} from "../../shared/router";
 
 export const LoginView = (props) => {
     return (
         <div>
-            placeholder
+            Login
         </div>
     )
 }

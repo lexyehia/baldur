@@ -33,5 +33,11 @@ module.exports = {
             template: "./src/index.html",
             filename: "./index.html"
         })
-    ]
+    ],
+    devServer: {
+        historyApiFallback: true
+    },
+    output: {
+        publicPath: '/'
+    }
 }

@@ -3,6 +3,9 @@ import styled from "styled-components"
 import PropTypes from "prop-types"
 import {useState} from "react";
 import gql from "graphql-tag"
+import {useRouter} from "../shared/router";
+import {RegisterView} from "../views/Register/RegisterView";
+import {LoginView} from "../views/Login/LoginView";
 
 const Wrapper = styled.div`
   color: red;
@@ -21,12 +24,17 @@ const query = gql`
     }
 `
 
+const routes = [
+    { path: '/register/:person?', component: ({ person }) => <RegisterView person={person} /> },
+    { path: '/login/(.*)', component: () => <LoginView/> }
+]
+
 export const Base = (props) => {
-    const [person, setPerson] = useState({ name: 'Hello' })
+    const component = useRouter(routes)
 
     return (
         <Wrapper className='test'>
-            <p onClick={() => setPerson({ name: 'Bob' })}>Hello World {person.name}</p>
+            {component}
         </Wrapper>
     )
 }
