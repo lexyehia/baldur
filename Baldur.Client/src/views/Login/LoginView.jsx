@@ -1,19 +1,15 @@
 import React from "react"
 import styled from "styled-components"
 import {Sidebar} from "../../components/Sidebar";
-import {Wrapper} from "../../components/Wrapper";
+import {MainContent} from "../../components/Wrapper";
 
 export const LoginView = (props) => {
     return (
         <div>
             <Sidebar/>
-            <ContentBox>
+            <MainContent>
                 Login
-            </ContentBox>
+            </MainContent>
         </div>
     )
 }
-
-const ContentBox = styled(Wrapper)`
-  padding-left: 160px;
-`

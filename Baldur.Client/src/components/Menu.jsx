@@ -1,6 +1,7 @@
 import React from "react"
 import styled from "styled-components"
 import {Wrapper} from "./Wrapper";
+import {COLOURS} from "../shared/constants";
 
 export const Menu = () => {
     return (
@@ -34,7 +35,7 @@ const Container = styled(Wrapper)`
       color: white;
       
       &:hover {
-        color: antiquewhite;
+        color: ${COLOURS.Silver};
       }
     }
 `

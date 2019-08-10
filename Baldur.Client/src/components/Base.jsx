@@ -5,9 +5,11 @@ import {RegisterView} from "../views/Register/RegisterView";
 import {LoginView} from "../views/Login/LoginView";
 import {Menu} from "./Menu";
 import {NotFound} from "./NotFound";
+import {LedgerView} from "../views/LedgerView/LedgerView";
 
 
 const routes = {
+    "/": () => <LedgerView/>,
     "/register": (props) => <RegisterView {...props} />,
     "/login": () => <LoginView/>
 }
