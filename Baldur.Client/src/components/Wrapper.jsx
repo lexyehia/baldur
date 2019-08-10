@@ -7,5 +7,6 @@ export const Wrapper = styled.div`
 `
 
 export const MainContent = styled(Wrapper)`
-  padding-left: 160px;
+  padding-left: 170px;
+  padding-top: 10px;
 `
