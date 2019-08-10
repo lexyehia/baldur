@@ -1,4 +1,5 @@
-import React, {useCallback} from "react";
+import React, {useCallback} from "react"
+import PropTypes from "prop-types"
 
 export const Link = ({ to, children }) => {
     const onClick = useCallback(() => {
@@ -10,4 +11,9 @@ export const Link = ({ to, children }) => {
             {children}
         </a>
     )
+}
+
+Link.propTypes = {
+    to: PropTypes.string.isRequired,
+    children: PropTypes.element,
 }

@@ -2,16 +2,18 @@ import React from "react";
 import pathToRegexp from "path-to-regexp"
 
 export function useRouter(routes) {
-    if (!Array.isArray(routes)) {
+    if (typeof routes !== "object") {
         throw new Error("routes arg is not an array")
     }
 
     const path = window.location.pathname
     let component = null
 
-    for (const route of routes) {
+    for (const routePath in routes) {
+        if (!{}.hasOwnProperty.call(routes, routePath)) continue
+
         const keys = []
-        const pathRegex = pathToRegexp(route.path, keys)
+        const pathRegex = pathToRegexp(routePath, keys)
 
         if (pathRegex.test(path)) {
             const props = {}
@@ -23,7 +25,7 @@ export function useRouter(routes) {
                 })
             }
 
-            component = route.component(props)
+            component = routes[routePath](props)
             break
         }
     }
