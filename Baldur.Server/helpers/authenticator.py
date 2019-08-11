@@ -4,8 +4,7 @@ from pathlib import Path
 from argon2 import PasswordHasher
 from argon2.exceptions import VerifyMismatchError
 from datetime import datetime, timedelta
-from models.session import Session
-from flask import g
+
 
 SECRET = "34trg345354hy463y43hge"
 
@@ -40,16 +39,7 @@ def get_peppers_list():
     return peppers
 
 
-def start_session(user):
-    if user is None:
-        return None
-
-    user.session = Session()
-    g.db.commit()
-    return user.session.id
-
-
-def create_token(session_id):
+def create_token(session_id: str) -> str:
     payload = {
         "ssn": session_id,
         "exp": datetime.utcnow() + timedelta(minutes=20),
@@ -58,7 +48,7 @@ def create_token(session_id):
     }
 
     token_bytes = jwt.encode(payload, SECRET, algorithm="HS256")
-    return str(token_bytes, "utf-8")
+    return "Bearer " + str(token_bytes, "utf-8")
 
 
 def verify_token(token):

@@ -10,19 +10,19 @@ def test_get_peppers_list():
 
 
 def test_hash_password():
-    hash = auth.hash_password("sekret")
-    assert type(hash) is str
-    assert len(hash) > 10
+    hashed = auth.hash_password("sekret")
+    assert type(hashed) is str
+    assert len(hashed) > 10
 
 
 def test_verify_password_correct():
-    hash = auth.hash_password("sekret")
-    assert auth.verify_password(hash, "sekret") is True
+    hashed = auth.hash_password("sekret")
+    assert auth.verify_password(hashed, "sekret") is True
 
 
 def test_verify_password_wrong():
-    hash = auth.hash_password("sekret")
-    assert auth.verify_password(hash, "wrong") is False
+    hashed = auth.hash_password("sekret")
+    assert auth.verify_password(hashed, "wrong") is False
 
 
 def test_create_token():

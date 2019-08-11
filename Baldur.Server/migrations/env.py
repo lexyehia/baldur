@@ -13,7 +13,7 @@ def retrieve_db_base():
     """
     parent_dir = os.path.abspath(os.path.join(os.getcwd()))
     sys.path.append(parent_dir)
-    from helpers.misc import get_hydrated_base
+    from helpers.utilities import get_hydrated_base
     return get_hydrated_base()
 
 
