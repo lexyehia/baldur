@@ -1,7 +1,8 @@
 import React from "react"
 import styled from "styled-components"
-import {Wrapper} from "./Wrapper";
-import {COLOURS} from "../shared/constants";
+import { Wrapper, COLORS } from "../shared/stylistics";
+import { Link } from "components/Link"
+
 
 export const Menu = () => {
     return (
@@ -9,9 +10,9 @@ export const Menu = () => {
             <a className="navbar-brand" href="#">Brand</a>
             <div className="collapse navbar-collapse">
                 <div className="navbar-nav">
-                    <a className="nav-item nav-link" href="#">Home</a>
-                    <a className="nav-item nav-link" href="#">Reports</a>
-                    <a className="nav-item nav-link" href="#">Charts</a>
+                    <Link to="/" className="nav-item nav-link">Home</Link>
+                    <Link to="/reports" className="nav-item nav-link">Reports</Link>
+                    <Link to="/charts" className="nav-item nav-link">Charts</Link>
                 </div>
             </div>
         </Container>
@@ -35,7 +36,7 @@ const Container = styled(Wrapper)`
       color: white;
       
       &:hover {
-        color: ${COLOURS.Silver};
+        color: ${COLORS.Silver};
       }
     }
 `

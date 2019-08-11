@@ -1,8 +1,8 @@
 import React from "react"
 import PropTypes from "prop-types"
 import styled from "styled-components"
-import {COLOURS} from "../shared/constants";
-import {toUpperFirstLetter} from "../shared/utilities";
+import { COLORS } from "shared/stylistics"
+import { toUpperFirstLetter } from "shared/utilities"
 
 /**
  * A basic data row component
@@ -36,7 +36,7 @@ const TableCell = styled.div`
   float: left;
   display: table-column;
   width: 200px;
-  background-color: ${COLOURS.Grey};
+  background-color: ${COLORS.Grey};
   color: black;
   padding: 3px;
 `
@@ -79,13 +79,13 @@ DataTable.propTypes = {
 const Container = styled.div`
   display: table;
   width: auto;
-  background-color: ${COLOURS.Grey};
+  background-color: ${COLORS.Grey};
   border: 2px solid #666666;
 `
 
 const TableHeader = styled(TableCell)`
-  background-color: ${COLOURS.DarkGrey};
+  background-color: ${COLORS.DarkGrey};
   font-weight: bold;
   color: white;
-  border-bottom: 2px solid ${COLOURS.DarkGrey};
+  border-bottom: 2px solid ${COLORS.DarkGrey};
 `
