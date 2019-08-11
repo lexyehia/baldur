@@ -3,12 +3,20 @@ from graphene import *
 from graphene_sqlalchemy import SQLAlchemyObjectType
 
 
+class LineItem(ObjectType):
+    amount = Int()
+    account = Int()
+    type = Int()
+
+
 class Transaction(SQLAlchemyObjectType):
     """
     UserType returned as a DTO back through GraphQL
     """
     class Meta:
         model = transaction.Transaction
+
+    line_items = List(LineItem)
 
 
 class TransactionQuery(ObjectType):
@@ -21,9 +29,11 @@ class TransactionQuery(ObjectType):
     @staticmethod
     def resolve_transactions(parent, info):
         query = Transaction.get_query(info)
-        return query.all()
+        result = query.all()
+        return result
 
     @staticmethod
     def resolve_transaction(self, info, pk):
         query = Transaction.get_query(info)
-        return query.get(pk)
+        result = query.get(pk)
+        return result

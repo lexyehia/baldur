@@ -5,8 +5,14 @@ schema {
     mutation: RootMutation
 }
 
+type LineItem {
+    account: Int
+    amount: Int
+    type: Int
+}
+
 type RootMutation {
-    addTransaction(amount: Int, date: Int, description: String): Transaction
+    addTransaction(amount: Int, date: Float, description: String): Transaction
     createUser(email: String, firstName: String, lastName: String, password: String): User
     deleteUser(pk: Int): Boolean
 }
@@ -23,7 +29,7 @@ type Transaction {
     date: String!
     description: String
     id: ID!
-    lineItems: [JSONString]
+    lineItems: [LineItem]
     sum: Int!
 }
 
@@ -34,12 +40,3 @@ type User {
     id: ID!
     lastName: String
 }
-
-
-"""
-Allows use of a JSON String for input / output from the GraphQL schema.
-
-Use of this type is *not recommended* as you lose the benefits of having a defined, static
-schema (one of the key benefits of GraphQL).
-"""
-scalar JSONString

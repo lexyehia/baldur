@@ -1,5 +1,4 @@
 from flask import g
-import json
 from graphene import *
 from .queries import Transaction as TransactionType
 from models.transaction import Transaction as TransactionModel
@@ -16,34 +15,23 @@ class AddTransaction(Mutation):
 
     @staticmethod
     def mutate(root, info, amount, date, description):
-        trx = TransactionModel(
+        transaction = TransactionModel(
             date=datetime.fromtimestamp(date / 1000),
             description=description
         )
 
-        trx.line_items = [
-            {
-                'account': 1,
-                'type': 1,
-                'amount': amount
-            },
-            {
-                'account': 2,
-                'type': 2,
-                'amount': amount
-            }
-        ]
+        transaction.add_line_item(1, 1001, amount)
+        transaction.add_line_item(2, 2001, amount)
+        transaction.reconcile()
 
-        trx.sum = 0
-
-        g.db.add(trx)
+        g.db.add(transaction)
         g.db.commit()
 
         rt = TransactionType(
-            id=trx.id,
-            line_items=trx.line_items,
-            description=trx.description,
-            sum=trx.sum
+            id=transaction.id,
+            line_items=transaction.line_items,
+            description=transaction.description,
+            sum=transaction.sum
         )
 
         return rt
