@@ -15,8 +15,10 @@ class AddTransaction(Mutation):
 
     @staticmethod
     def mutate(root, info, amount, date, description):
+        parsed_date = datetime.fromtimestamp(date / 1000)
+
         transaction = TransactionModel(
-            date=datetime.fromtimestamp(date / 1000),
+            date=parsed_date,
             description=description
         )
 
@@ -27,14 +29,12 @@ class AddTransaction(Mutation):
         g.db.add(transaction)
         g.db.commit()
 
-        rt = TransactionType(
+        return TransactionType(
             id=transaction.id,
             line_items=transaction.line_items,
             description=transaction.description,
             sum=transaction.sum
         )
-
-        return rt
 
 
 class TransactionMutation(ObjectType):

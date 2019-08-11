@@ -22,17 +22,14 @@ class Transaction(Base):
         if type(amount) is not int:
             raise TypeError("amount is not an int")
 
-        line_item = {
-            'type': line_type,
-            'account': account,
-            'amount': amount,
-        }
-
         if type(self.line_items) is not list:
             self.line_items = []
 
-        self.line_items.append(line_item)
-        return self
+        self.line_items.append({
+            'type': line_type,
+            'account': account,
+            'amount': amount,
+        })
 
     def reconcile(self):
         self.sum = 0
