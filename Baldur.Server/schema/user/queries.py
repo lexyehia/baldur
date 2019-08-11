@@ -24,12 +24,11 @@ class UserQuery(ObjectType):
 
     @staticmethod
     def resolve_users(parent, info):
-        query = g.db.query(UserModel)
-        return query.all()
+        return User.get_query(info).all()
 
     @staticmethod
     def resolve_user(parent, info, pk):
-        query = g.db.query(UserModel)
+        query = User.get_query(info)
         return query.get(int(pk))
 
     @staticmethod

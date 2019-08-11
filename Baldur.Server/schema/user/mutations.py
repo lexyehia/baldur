@@ -1,6 +1,6 @@
 from flask import g
 from graphene import *
-from .queries import User as UserType
+from .queries import User
 from models.user import User as UserModel
 from helpers.authenticator import hash_password
 
@@ -12,7 +12,7 @@ class CreateUser(Mutation):
         last_name = String()
         password = String()
 
-    Output = UserType
+    Output = User
 
     @staticmethod
     def mutate(root, info, last_name, email, first_name, password):
@@ -26,12 +26,7 @@ class CreateUser(Mutation):
         g.db.add(user)
         g.db.commit()
 
-        return UserType(
-            id=user.id,
-            email=user.email,
-            first_name=user.first_name,
-            last_name=user.last_name,
-        )
+        return user
 
 
 class DeleteUser(Mutation):
@@ -42,7 +37,7 @@ class DeleteUser(Mutation):
 
     @staticmethod
     def mutate(root, info, pk):
-        user = g.db.query(UserModel).get(pk)
+        user = UserModel.query.get(pk)
         g.db.delete(user)
         g.db.commit()
         return True

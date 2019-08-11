@@ -1,7 +1,6 @@
 from flask import Blueprint, request, g
-from settings.database import Session
 from helpers.authenticator import verify_token
-
+from settings.database import setup_db, close_db
 from models.user import User
 
 
@@ -15,7 +14,7 @@ def authenticate_token():
     verify the JWT token, and grab the request's user (if any), save it
     as part of the request for future use.
     """
-    g.db = Session()
+    setup_db()
 
     user = None
     auth_token = request.headers.get("Authorization")
@@ -29,8 +28,7 @@ def authenticate_token():
 
 @bp.after_app_request
 def after_request(response):
-    if g.db is not None:
-        g.db.close()
+    close_db()
 
     header = response.headers
     header["Access-Control-Allow-Origin"] = "http://localhost:8080"

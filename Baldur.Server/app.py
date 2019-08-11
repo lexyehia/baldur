@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_graphql import GraphQLView
 from waitress import serve
+import settings.database
 
 from schema import schema
 
