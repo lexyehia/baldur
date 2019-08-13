@@ -6,6 +6,7 @@ from ariadne import QueryType, MutationType, convert_kwargs_to_snake_case
 
 query = QueryType()
 mutation = MutationType()
+tranx_resolvers = [query, mutation]
 
 """
 QUERIES

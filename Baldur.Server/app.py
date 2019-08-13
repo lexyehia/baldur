@@ -1,11 +1,10 @@
-from models import *
 from flask import Flask
 from waitress import serve
+from models import *
 import settings.database
 
 from controllers.app_filters import bp as filters
 from controllers.index_controller import ctrl as index_ctrl
-from controllers.sessions_controller import ctrl as sessions_ctrl
 from controllers.graphql_controller import ctrl as graphql_ctrl
 
 
@@ -13,7 +12,6 @@ app = Flask(__name__)
 
 app.register_blueprint(filters)
 app.register_blueprint(index_ctrl)
-app.register_blueprint(sessions_ctrl)
 app.register_blueprint(graphql_ctrl)
 
 

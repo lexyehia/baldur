@@ -5,7 +5,7 @@ from flask import g, abort
 
 query = QueryType()
 mutation = MutationType()
-
+user_resolvers = [query, mutation]
 
 """
 QUERIES
