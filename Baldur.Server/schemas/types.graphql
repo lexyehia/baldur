@@ -1,0 +1,49 @@
+type Query {
+    # Users
+    me: User
+    users: [User]
+    user(pk: ID!): User
+
+    # Transactions
+    transaction(pk: ID!): Transaction
+    transactions(fromDate: String, toDate: String, account: Int, amount: Float): [Transaction]
+}
+
+type Mutation {
+    # Sessions
+    login(email: String!, password: String!): String
+    logout: Boolean
+
+    # Users
+    createUser(email: String!, password: String!, firstName: String, lastName: String): User
+    deleteUser(pk: ID!): Boolean
+
+    # Transactions
+    addTransaction(amount: Float!, date: String!, description: String): Transaction
+}
+
+"""
+A super duper user
+"""
+type User {
+    id: ID
+    firstName: String
+    lastName: String
+    email: String
+}
+
+"""
+This is a basic transaction
+"""
+type Transaction {
+    id: ID
+    description: String
+    date: String
+    lineItems: [LineItem]
+}
+
+type LineItem {
+    amount: Float
+    account: Int
+    type: Int
+}
