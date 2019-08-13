@@ -29,7 +29,7 @@ class User(Base):
         return str(self.session.id)
 
     def end_session(self):
-        if self.session is not None:
+        if self.session:
             g.db.delete(self.session)
             g.db.commit()
 

@@ -1,3 +1,4 @@
+from os import getenv
 from flask import Blueprint, request, g
 from helpers.authenticator import verify_token
 from settings.database import setup_db, close_db
@@ -5,6 +6,11 @@ from models.user import User
 
 
 bp = Blueprint("filters", __name__)
+
+
+@bp.before_app_request
+def set_variables():
+    g.is_dev = getenv("FLASK_ENV") == "development"
 
 
 @bp.before_app_request
@@ -20,7 +26,7 @@ def authenticate_token():
     auth_token = request.headers.get("Authorization")
     session_id = verify_token(auth_token)
 
-    if session_id is not None:
+    if session_id:
         user = User.query.filter(User.session.has(id=session_id)).first()
 
     g.user = user
