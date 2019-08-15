@@ -5,7 +5,7 @@ from sqlalchemy import Column, Integer, String
 class Account(Base):
     __tablename__ = 'accounts'
 
-    id = Column(Integer, primary_key=True)
-    number = Column(Integer, nullable=False)
-    name = Column(String, nullable=False)
-    type = Column(Integer, nullable=False)
+    id: int = Column(Integer, primary_key=True)
+    number: int = Column(Integer, nullable=False)
+    name: str = Column(String, nullable=False)
+    type: int = Column(Integer, nullable=False)

@@ -1,7 +1,7 @@
 from ariadne import convert_kwargs_to_snake_case, QueryType, MutationType
 from models.user import User
 from helpers.authenticator import hash_password, create_token
-from flask import g, abort
+from flask import g
 
 query = QueryType()
 mutation = MutationType()

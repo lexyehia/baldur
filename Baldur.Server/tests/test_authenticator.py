@@ -1,7 +1,7 @@
 import helpers.authenticator as auth
 
 
-def test_get_peppers_list():
+def test_get_peppers_list() -> None:
     peppers = auth.get_peppers_list()
     assert len(peppers) > 0
     for pepper in peppers:
